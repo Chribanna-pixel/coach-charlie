@@ -1,1 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach Charlie</title>
 
+<style>
+body{
+    margin:0;
+    background:#121212;
+    color:white;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:30px;
+}
+
+h1{
+    text-align:center;
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+p{
+    text-align:center;
+    color:#bbb;
+}
+
+textarea{
+    width:100%;
+    height:420px;
+    margin-top:25px;
+    border:none;
+    border-radius:12px;
+    padding:20px;
+    font-size:18px;
+    resize:vertical;
+    box-sizing:border-box;
+    background:#1f1f1f;
+    color:white;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:20px;
+    border:none;
+    border-radius:12px;
+    background:#28a745;
+    color:white;
+    font-size:24px;
+    font-weight:bold;
+}
+
+button:hover{
+    cursor:pointer;
+    background:#23913d;
+}
+
+#status{
+    margin-top:20px;
+    text-align:center;
+    font-size:20px;
+    color:#00ff88;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>💪 Coach Charlie</h1>
+
+<p>Paste your workout below and press Upload.</p>
+
+<textarea id="workout" placeholder="Paste workout here..."></textarea>
+
+<button onclick="uploadWorkout()">
+🚀 Upload Workout
+</button>
+
+<div id="status"></div>
+
+</div>
+
+<script>
+
+const webhook="https://hook.eu1.make.com/o2xbmuelkuaea9kg4criu98sd9ylsoqm";
+
+async function uploadWorkout(){
+
+const workout=document.getElementById("workout").value.trim();
+
+if(workout===""){
+alert("Paste a workout first.");
+return;
+}
+
+document.getElementById("status").innerHTML="Uploading...";
+
+try{
+
+await fetch(webhook,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+workout:workout
+})
+});
+
+document.getElementById("status").innerHTML="✅ Workout uploaded successfully!";
+document.getElementById("workout").value="";
+
+}
+catch(e){
+
+document.getElementById("status").innerHTML="❌ Upload failed.";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
